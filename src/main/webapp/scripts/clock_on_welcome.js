@@ -20,11 +20,11 @@ function setRotation(element, rotationRatio) {
     element.style.setProperty('--rotation', rotationRatio * 360)
 }
 
-let clock = document.getElementById("clock");
+let clock = document.getElementById("clock-name");
 setTime();
 function setTime(){
     let currentTime = new Date();
-    clock.innerHTML = `Текущее время: ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}, ${currentTime.getDay()}.${currentTime.getMonth()}.${currentTime.getFullYear()}`;
+    clock.innerHTML = `Текущее время: ${currentTime.toLocaleString()}`;
 }
 
 setInterval(setTime, clockUpdateTime);
