@@ -1,0 +1,14 @@
+#global_header {
+    text-align: center;
+    font-family: "Rubik", serif;
+    font-size: medium;
+    color: #5A89A6;
+    background-color: #EDD7B9;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+#global_header p{
+    padding: 15px;
+    margin: auto auto 10px;
+}

@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding-left: 10%;
+    padding-right: 10%; /*TODO копировал свой код из main.css*/
+    font-family: "Rubik", serif;
+
+}
+
+#clock {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: x-large;
+}
+/*TODO center button*/
+#go_main_form{
+    align-content: center;
+}

@@ -1,0 +1,48 @@
+body *{
+    font-family: "Rubik", serif;
+}
+body{
+    margin: 0;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-family: "Rubik", serif;
+}
+.main-table{
+    width: 100%;
+    background-color: #E0F3FF;
+    border-radius: 20px;
+    border: 3px;
+    padding-top: 20px;
+}
+#graph-area{
+    width: 50%;
+    text-align: center;
+    display: inline;
+}
+#graph {
+    margin: auto;
+    display: block;
+}
+#resultTable {
+    border: 1px solid;
+    width: 90%;
+    margin: auto auto 16px;
+}
+#resultTable * {
+    border: 1px solid;
+    text-align: center;
+}
+
+#resultTable th{
+    background-color: #B8D9ED;
+}
+
+
+#mainForm\:x_label, #mainForm\:y_label, #mainForm\:r_label {
+    margin: 20px 20px 20px 10%;
+}
+
+#hoHomeForm\:goHomeFromMainButton{
+    display: block;
+    margin: 20px auto auto;
+}

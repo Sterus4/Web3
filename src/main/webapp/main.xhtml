@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link rel="stylesheet" type="text/css" href="styles/header.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/main.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/footer.css"/>
+
+    <title>
+        Main Page
+    </title>
+</h:head>
+
+<h:body>
+
+    <ui:include src="header.html"/>
+    <table class="main-table">
+        <tbody>
+            <tr id="table_naming">
+                <th>График области</th>
+                <th>Форма</th>
+            </tr>
+            <tr id="table_main_part">
+                <td id="graph-area">
+                    <canvas id="graph"> Обновите страницу</canvas>
+                </td>
+                <td>
+                    <h:form id="mainForm">
+                        <h:outputLabel id="x_label"  for="xSpinner">X</h:outputLabel>
+                        <p:spinner id="xSpinner" min="-4.9" max="4.9" stepFactor="0.1" value="#{localHit.xCoordinate}" required="true"/>
+                        <br />
+                        <h:outputLabel id="y_label" for="YInputText">Y</h:outputLabel>
+                        <h:inputText id="YInputText" value="#{localHit.yCoordinate}" required="true" maxlength="7">
+                            <f:validateDoubleRange minimum="-5" maximum="3" />
+                            <f:validator validatorId="YValidator"/>
+                        </h:inputText>
+                        <h:message for="YInputText" showDetail="true"/>
+                        <!--TODO Validation-->
+                        <br />
+                        <h:outputLabel id="r_label" for="rSlider">R</h:outputLabel>
+                        <p:inputText id="rSliderText" value="#{localHit.radius}">
+                            <f:validateDoubleRange minimum="2.1" maximum="4.9"/>
+                        </p:inputText>
+                        <p:slider id="rSlider" onSlide="updateR(event, ui)" for="rSliderText" minValue="2.1" maxValue="4.9" step="0.1" style="width: 50%"/> <!--TODO styles-->
+
+                        <h:message for="rSliderText" showDetail="true" />
+
+                        <h:commandButton id="submit_button" action="#{hitsBean.checkHit}" value="Отправить"/>
+                        <br />
+                        <h:message for="submit_button" showDetail="true" />
+                    </h:form>
+                    <br />
+                    <h:form id="get_all_results_form">
+                        <h:commandButton id="get_all_results_button" action="#{hitsBean.getAll}" value="Получить все результаты"/>
+                        <h:message for="get_all_results_button" showDetail="true"/>
+                    </h:form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h:dataTable id="resultTable" value="#{hitsBean.hits}" var="value">
+                        <h:column>
+                            <f:facet name="header">X</f:facet>
+                            <h:outputText value="#{value.xCoordinate}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Y</f:facet>
+                            <h:outputText value="#{value.yCoordinate}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">R</f:facet>
+                            <h:outputText value="#{value.radius}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Попадание</f:facet>
+                            <h:outputText value="#{value.shot}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Текущее время</f:facet>
+                            <h:outputText value="#{value.nowDate}"/>
+                        </h:column>
+                    </h:dataTable>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h:form id="hoHomeForm">
+        <h:commandButton id="goHomeFromMainButton" value="Вернуться домой" action="goHome"/>
+    </h:form>
+
+    <!--TODO Validation and css (border)-->
+
+
+    <ui:include src="footer.html"/>
+</h:body>
+<script src="scripts/graph_loader.js" defer="defer"> </script>
+
+</html>

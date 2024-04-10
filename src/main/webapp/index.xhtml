@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/header.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/footer.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/clock.css"/>
+
+    <title>
+        Start Page
+    </title>
+</h:head>
+
+<h:body>
+
+    <ui:include src="header.html"/>
+
+    <div id="clock"> </div>
+
+    <div class="clock">
+        <div id="data-hour-hand" class="hand hour"> </div>
+        <div id="data-minute-hand" class="hand minute"> </div>
+        <div id="data-second-hand" class="hand second"> </div>
+        <div class="number number1">1</div>
+        <div class="number number2">2</div>
+        <div class="number number3">3</div>
+        <div class="number number4">4</div>
+        <div class="number number5">5</div>
+        <div class="number number6">6</div>
+        <div class="number number7">7</div>
+        <div class="number number8">8</div>
+        <div class="number number9">9</div>
+        <div class="number number10">10</div>
+        <div class="number number11">11</div>
+        <div class="number number12">12</div>
+    </div>
+
+    <h:form id="go_main_form">
+        <h:commandButton id="goToMainButton" action="goToMain" value="Перейти на основную страницу"/>
+    </h:form>
+
+
+    <ui:include src="footer.html"/>
+</h:body>
+
+<script src="scripts/clock_on_welcome.js" defer="defer"> </script>
+</html>
