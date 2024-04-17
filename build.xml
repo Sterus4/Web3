@@ -1,0 +1,52 @@
+<project name="lab3" default="all">
+    <!-- Параметры -->
+    <property file="build.properties"/>
+
+    <!-- Пути до файлов-->
+    <path id="dependencies">
+        <fileset  dir="${dir.dependencies}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <!-- Цель на все-->
+    <target name="all" depends="build.jar"/>
+    
+    <!-- Цель создать нужные директории-->
+    <target name="create.dir">
+        <mkdir dir="${dir.class}"/>
+        <mkdir dir="${dir.war.content}"/>
+    </target>
+    
+    <!-- Цель Компиляции исходных java файлов-->
+    <target name="compile" depends="create.dir">
+        <javac srcdir="${dir.src.java}" destdir="${dir.class}">
+            <classpath refid="dependencies"/>
+        </javac>
+    </target>
+
+    <!-- Цель сборки jar файла-->
+    <target name="build.jar" depends="compile">
+        <jar destfile="${file.jar}"
+            basedir="${dir.class}"
+            index="true">
+        </jar>
+    </target>
+
+    <!-- Цель сборки war файла-->
+    <target name="build.war.target" depends="build.jar">
+        <copy todir="${dir.war.content}">
+            <fileset dir="${dir.src.webapp}">
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="build.war" depends="build.war.target">
+
+    </target>
+
+    <!-- Цель очистка от ненужного-->
+    <target name="clean">
+        <delete dir="${dir.build}"/>
+    </target>
+</project>
