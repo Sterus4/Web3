@@ -10,7 +10,7 @@
     </path>
 
     <!-- Цель на все-->
-    <target name="all" depends="build.jar"/>
+    <target name="all" depends="build.war"/>
     
     <!-- Цель создать нужные директории-->
     <target name="create.dir">
@@ -23,6 +23,9 @@
         <javac srcdir="${dir.src.java}" destdir="${dir.class}">
             <classpath refid="dependencies"/>
         </javac>
+        <copy todir="${dir.class}">
+            <fileset dir="${dir.src.res}"/>
+        </copy>
     </target>
 
     <!-- Цель сборки jar файла-->
@@ -35,14 +38,21 @@
 
     <!-- Цель сборки war файла-->
     <target name="build.war.target" depends="build.jar">
-        <copy todir="${dir.war.content}">
-            <fileset dir="${dir.src.webapp}">
-            </fileset>
+        <copy todir="${dir.war.content}" overwrite="true" preservelastmodified="true">
+            <fileset dir="${dir.src.webapp}"/>
         </copy>
+        <copy todir="${dir.war.lib}" preservelastmodified="true">
+            <fileset dir="${dir.dependencies}"/>
+        </copy>
+        <copy todir="${dir.war.lib}" preservelastmodified="true"
+              file="${file.jar}"/>
     </target>
 
     <target name="build.war" depends="build.war.target">
-
+        <delete file="${file.war}"/>
+        <war encoding="utf-8" warfile="${file.war}" webxml="${file.webxml}">
+            <fileset dir="${dir.war.content}"/>
+        </war>
     </target>
 
     <!-- Цель очистка от ненужного-->
