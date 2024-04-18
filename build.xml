@@ -84,11 +84,12 @@
         <jar destfile="${docs.jar}"
             basedir="${dir.docs}"/>
     </target>
-
+    <!-- -->
     <!-- Цель очистка от ненужного-->
     <target name="clean">
         <delete includeemptydirs="true">
             <fileset dir="${dir.build}" includes="**/*" excludes="${file.name}.jar,${file.name}.war"/>
+            <fileset dir="${dir.docs}" includes="**/*"/>
         </delete>
     </target>
 </project>
