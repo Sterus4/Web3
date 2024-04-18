@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.10.7
+Created-By: 17.0.4+11-LTS-179 (Oracle Corporation)
+Built-By: stepa
+Project-version: 1.0
+
+Name: documentation
+Project-MD5: 0ce2856619968ab75759910a622d2ee2
+Project-SHA-1: 5cc391da795e65a68c8bf8da042e908aff80ad33
+

@@ -10,12 +10,22 @@
     </path>
 
     <!-- Цель на все-->
-    <target name="all" depends="build.war"/>
+    <target name="all" depends="build.war, create.meta, doc"/>
     
+    <!-- Цель на создание манифеста-->
+    <target name="create.meta" depends="create.dir">
+        <manifest file="${dir.meta}/${file.manifest}">
+            <attribute name="Built-By" value="${user.name}"/>
+            <attribute name="Project-version" value="${project.version}"/>
+        </manifest>
+    </target>
+
     <!-- Цель создать нужные директории-->
     <target name="create.dir">
         <mkdir dir="${dir.class}"/>
         <mkdir dir="${dir.war.content}"/>
+        <mkdir dir="${dir.meta}"/>
+        <mkdir dir="${dir.docs}"/>
     </target>
     
     <!-- Цель Компиляции исходных java файлов-->
@@ -55,8 +65,30 @@
         </war>
     </target>
 
+    <!-- Создание документации-->
+    <target name="doc" depends="create.meta, build.war">
+        <checksum property="hash.md5" algorithm="MD5" file="${file.war}"/>
+        <checksum property="hash.sha1" algorithm="SHA-1" file="${file.war}"/>
+
+        <manifest file="${dir.meta}/${file.manifest}" mode="update">
+            <section name="documentation">
+                <attribute name="Project-MD5" value="${hash.md5}"/>
+                <attribute name="Project-SHA-1" value="${hash.sha1}"/>
+            </section>
+        </manifest>
+
+        <javadoc sourcepath="${dir.src.java}" destdir="docs">
+            <classpath refid="dependencies"/>
+        </javadoc>
+
+        <jar destfile="${docs.jar}"
+            basedir="${dir.docs}"/>
+    </target>
+
     <!-- Цель очистка от ненужного-->
     <target name="clean">
-        <delete dir="${dir.build}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${dir.build}" includes="**/*" excludes="${file.name}.jar,${file.name}.war"/>
+        </delete>
     </target>
 </project>
