@@ -5,7 +5,7 @@ docs/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/test
+/bin
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml

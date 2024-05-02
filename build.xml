@@ -64,6 +64,33 @@
             <fileset dir="${dir.war.content}"/>
         </war>
     </target>
+    <!-- Тестирование-->
+    <target name="compile.tests" depends="build.war">
+        <mkdir dir="${dir.bin}"/>
+        <javac srcdir="${dir.src.test}" destdir="${dir.bin}" includeantruntime="false">
+            <classpath>
+                <path refid="dependencies"/>
+                <pathelement location="${dir.bin}"/>
+                <pathelement location="${dir.class}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="test" depends="compile.tests">
+        <mkdir dir="${dir.test.output}"/>
+        <junitlauncher printsummary="on" haltonfailure="yes">
+            <classpath>
+                <path refid="dependencies"/>
+                <pathelement location="${dir.bin}"/>
+                <pathelement location="${dir.class}"/>
+            </classpath>
+            <testclasses outputdir="${dir.test.output}">
+                <fileset dir="${dir.bin}" includes="**/*.class"/>
+                <listener type="legacy-brief" sendSysOut="true"/>
+                <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+            </testclasses>
+        </junitlauncher>
+    </target>
 
     <!-- Создание документации-->
     <target name="doc" depends="create.meta, build.war">
@@ -84,7 +111,12 @@
         <jar destfile="${docs.jar}"
             basedir="${dir.docs}"/>
     </target>
-    <!-- -->
+    <!-- Цель получения последних двух ревизий из гита-->
+    <target name="team">
+        <exec dir="${dir.meta}">
+
+        </exec>
+    </target>
     <!-- Цель очистка от ненужного-->
     <target name="clean">
         <delete includeemptydirs="true">

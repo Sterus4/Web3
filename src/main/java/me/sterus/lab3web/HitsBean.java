@@ -45,12 +45,11 @@ public class HitsBean implements Serializable {
             hits.addAll(localList);
         }
     }
-    //TODO check r (не всегда = 3)
-    boolean check(Hit local){
+    public boolean check(Hit local){
         var x = local.getxCoordinate();
         var y = local.getyCoordinate();
         var r = local.getRadius();
-        return (x <= 0 && y >= 0 && y <= x + r/2) || (x <= 0 && y <= 0 && x >= -r && y >= -r/2) || (x >= 0 && y <= 0 && x * x + y * y <= r * r / 4);
+        return Checker.check(x, y, r);
     }
 
     private List<Hit> getAllHits(){
