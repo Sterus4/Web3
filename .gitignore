@@ -1,11 +1,12 @@
 target/
-libs/
+
 docs/
 /docs.jar
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 /bin
+/revisions.zip
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml

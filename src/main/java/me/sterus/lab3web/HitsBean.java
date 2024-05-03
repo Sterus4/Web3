@@ -49,6 +49,7 @@ public class HitsBean implements Serializable {
         var x = local.getxCoordinate();
         var y = local.getyCoordinate();
         var r = local.getRadius();
+        var abuse = 123;
         return Checker.check(x, y, r);
     }
 

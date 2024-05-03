@@ -113,9 +113,43 @@
     </target>
     <!-- Цель получения последних двух ревизий из гита-->
     <target name="team">
-        <exec dir="${dir.meta}">
-
+        <exec executable="git">
+            <arg value="stash"/>
+            <arg value="push"/>
+            <arg value="--"/>
+            <arg value="src/main/java"/>
         </exec>
+        <exec executable="git">
+            <arg value="checkout"/>
+            <arg value="HEAD~1"/>
+            <arg value="--"/>
+            <arg value="src/main/java"/>
+        </exec>
+        <antcall target="build.jar">
+            <param name="file.jar" value="${file.jar.HEAD1}"/>
+        </antcall>
+        <exec executable="git">
+            <arg value="checkout"/>
+            <arg value="HEAD~2"/>
+            <arg value="--"/>
+            <arg value="src/main/java"/>
+        </exec>
+        <antcall target="build.jar">
+            <param name="file.jar" value="${file.jar.HEAD2}"/>
+        </antcall>
+        <exec executable="git">
+            <arg value="checkout"/>
+            <arg value="HEAD"/>
+            <arg value="--"/>
+            <arg value="src/main/java"/>
+        </exec>
+        <exec executable="git">
+            <arg value="stash"/>
+            <arg value="pop"/>
+        </exec>
+        <zip destfile="${revisions.zip}">
+            <fileset dir="." includes="${file.jar.HEAD1}, ${file.jar.HEAD2}"/>
+        </zip>
     </target>
     <!-- Цель очистка от ненужного-->
     <target name="clean">
