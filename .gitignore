@@ -1,5 +1,5 @@
 target/
-
+/output
 docs/
 /docs.jar
 !.mvn/wrapper/maven-wrapper.jar
