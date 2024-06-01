@@ -2,7 +2,6 @@ package me.sterus.lab3web;
 
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UIViewRoot;
@@ -10,7 +9,14 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import me.sterus.lab3web.dao.HitService;
+import me.sterus.lab3web.jmx.JMXMonitor;
+import me.sterus.lab3web.jmx.PercentHit;
+import me.sterus.lab3web.jmx.TotalDots;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +27,8 @@ import java.util.List;
 public class HitsBean implements Serializable {
     private List<Hit> hits = new ArrayList<>();
     private HitService hitService = new HitService();
+    private final TotalDots totalDotsMBean;
+    private final PercentHit percentHit;
 
     @Inject
     private Hit localHit;
@@ -30,6 +38,19 @@ public class HitsBean implements Serializable {
     }
 
     public HitsBean() {
+        totalDotsMBean = new TotalDots(hits);
+        percentHit = new PercentHit(hits);
+        try {
+            JMXMonitor.configure(totalDotsMBean, percentHit);
+        } catch (MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+        } catch (NotCompliantMBeanException e) {
+            throw new RuntimeException(e);
+        } catch (InstanceAlreadyExistsException e) {
+            throw new RuntimeException(e);
+        } catch (MBeanRegistrationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void checkHit(){
@@ -37,15 +58,21 @@ public class HitsBean implements Serializable {
         Hit newHit = new Hit(localHit.getxCoordinate(), localHit.getyCoordinate(), localHit.getRadius(), localHit.isShot(), new Date().toString());
         newHit.setSessionId(FacesContext.getCurrentInstance().getExternalContext().getSessionId(true));
         hits.add(newHit);
-        saveToDataBase(newHit);
+        totalDotsMBean.increaseHitDots(newHit);
+        totalDotsMBean.increaseTotalDots();
+        percentHit.setHitPercent();
+        //saveToDataBase(newHit);
     }
     public void getAll(){
         List<Hit> localList = getAllHits();
         if (localList != null){
+            hits.clear();
             hits.addAll(localList);
+            totalDotsMBean.increaseTotalDots();
+            percentHit.setHitPercent();
+
         }
     }
-    //TODO check r (не всегда = 3)
     boolean check(Hit local){
         var x = local.getxCoordinate();
         var y = local.getyCoordinate();

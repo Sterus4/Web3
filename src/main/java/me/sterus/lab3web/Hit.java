@@ -1,9 +1,9 @@
 package me.sterus.lab3web;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Named;
 import jakarta.persistence.*;
+
 //TODO создать таблицу
 @Entity
 @Table(name = "hits")
